@@ -1,10 +1,12 @@
-# CryptoClustering
+# CrytoClustering# 
 # Import required libraries and dependencies
 import pandas as pd
 import hvplot.pandas
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+import warnings
+warnings.filterwarnings("ignore")
 
 # %%
 # Load the data into a Pandas DataFrame
@@ -93,12 +95,13 @@ df_elbow = pd.DataFrame(elbow_data)
 # %%
 # Plot a line chart with all the inertia values computed with 
 # the different values of k to visually identify the optimal value for k.
-df_elbow.hvplot.line(
+elbow1 = df_elbow.hvplot.line(
     x='k',
     y='inertia',
     title = 'Elbow Curve',
     xticks = k
 )
+elbow1
 
 # %% [markdown]
 # #### Answer the following question: 
@@ -145,11 +148,12 @@ df_market_data_scaled_predictions.head()
 # Color the graph points with the labels found using K-Means and 
 # add the crypto name in the `hover_cols` parameter to identify 
 # the cryptocurrency represented by each data point.
-df_market_data_scaled_predictions.hvplot.scatter(
+scatter1 = df_market_data_scaled_predictions.hvplot.scatter(
     x="price_change_percentage_24h",
     y="price_change_percentage_7d",
     by = 'cluster_id'
 )
+scatter1
 
 # %% [markdown]
 # ---
@@ -228,12 +232,13 @@ df_pca_elbow = pd.DataFrame(pca_elbow_data)
 # %%
 # Plot a line chart with all the inertia values computed with 
 # the different values of k to visually identify the optimal value for k.
-df_pca_elbow.hvplot.line(
+elbow2 = df_pca_elbow.hvplot.line(
     x = "k",
     y = "pca_inertia",
     title = "PCA Elbow Curve",
     xticks = k
 )
+elbow2
 
 # %% [markdown]
 # #### Answer the following questions: 
@@ -281,11 +286,12 @@ df_pca_data_predictions.head()
 # Color the graph points with the labels found using K-Means and 
 # add the crypto name in the `hover_cols` parameter to identify 
 # the cryptocurrency represented by each data point.
-df_pca_data_predictions.hvplot.scatter(
+scatter2 = df_pca_data_predictions.hvplot.scatter(
     x = "PCA1",
     y = "PCA2",
     by = "cluster_id"
 )
+scatter2
 
 # %% [markdown]
 # ### Visualize and Compare the Results
@@ -306,29 +312,11 @@ df_elbow_composite.hvplot.line(
 
 # %%
 # OR
-df_elbow_composite.hvplot.line(
-    x = "k",
-    y = "inertia",
-    title = "Elbow Curve",
-    xticks = k
-) + df_elbow_composite.hvplot.line(
-    x = "k",
-    y = "pca_inertia",
-    title = "pca Elbow Curve",
-    xticks = k
-)
+elbow1 + elbow2
 
 # %%
 # Composite plot to contrast the clusters
-df_market_data_scaled_predictions.hvplot.scatter(
-    x="price_change_percentage_24h",
-    y="price_change_percentage_7d",
-    by = 'cluster_id'
-) + df_pca_data_predictions.hvplot.scatter(
-    x = "PCA1",
-    y = "PCA2",
-    by = "cluster_id"
-)
+scatter1 + scatter2
 
 # %% [markdown]
 # #### Answer the following question: 
